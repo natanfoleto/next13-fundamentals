@@ -1,10 +1,29 @@
+import { Suspense } from 'react'
+
+import { GithubProfile } from './components/github-profile'
+import { LongWaitComponent } from './components/long-wait-component'
+
+// Triade dos conceitos do NEXT => Server components, Client components e Streaming SSR
+
 export default async function Home() {
-  // Triade dos conceitos do NEXT => Server components, Client components e Streaming SSR
+  return (
+    <div>
+      <h1>Home!</h1>
 
-  await new Promise((resolve) => setTimeout(resolve, 2000))
+      <p>
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Alias
+        excepturi sint tempora, deserunt, eveniet, quo consequuntur hic fugit
+        repellendus fuga rerum aliquid quia! Voluptatibus, libero animi! Dolorem
+        veniam iusto fuga?
+      </p>
 
-  const response = await fetch('https://api.github.com/users/natanfoleto')
-  const user = await response.json()
+      <Suspense fallback={<p>Carregando LongWaitComponent...</p>}>
+        <LongWaitComponent />
+      </Suspense>
 
-  return <pre>{JSON.stringify(user, null, 2)}</pre>
+      <Suspense fallback={<p>Carregando GithubProfile...</p>}>
+        <GithubProfile />
+      </Suspense>
+    </div>
+  )
 }
